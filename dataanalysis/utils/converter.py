@@ -1,3 +1,10 @@
+
+''' Converts a list of lists to a list of strings
+
+    Adds all bigrams within the same document into a string 
+    for use in TF-IDF, BoW, and semantic analysis
+'''
+
 def convertArrayString(stemmed_array):
     string_array = []
     comment = ''

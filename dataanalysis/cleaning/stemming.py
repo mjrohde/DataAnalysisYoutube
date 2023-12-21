@@ -1,5 +1,12 @@
 import nltk
 
+''' Performs stemming on a corpus of documents
+
+   Takes a list of ngrams where stopwords are removed based
+   on nltk's corpus of stopwords in english. The stemming is performed
+   with a PorterStemmer.
+'''
+
 def Stemming(removed_stopwords_comments):
     stemmed_comments = []
     ps = nltk.PorterStemmer()

@@ -18,11 +18,29 @@ from vectorization.tf_idf import VectorizationTfIdf
 from topic.lsa import lsa
 from utils.converter import convertArrayString
 
+'''Loads the data
+
+    Uses Pandas to load the csv into memory and extracts the
+    actual comments column from the loaded data. It then produces
+    a DataFrame for easier visualization of the data. 
+
+    Returns the dataframe, specifying the number of rows to be 
+    expected
+'''
 def load_csv(filepath):
     data = pd.read_csv(filepath, usecols=['Comment (Actual)'])
     df = pd.DataFrame(data=data)
     return df.head(100)
 
+''' Cleans the text
+
+    Performs both removal of punctuations and converts the document
+    to lowercase. Performs tokenization to produce n-grams, in this case, 
+    bigrams. Removes the stopwords from the corpus for each document. Stems
+    the words to remove the suffixes for better and more accurate topic
+    modelling.
+
+'''
 
 def clean_text():
     comments = []
