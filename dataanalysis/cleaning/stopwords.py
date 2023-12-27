@@ -17,11 +17,17 @@ def RemoveStopwords(tokenized_comments):
     stopwords = nltk.corpus.stopwords.words('english')
     for i in tokenized_comments:
         temp = []
+        stopped = False
         for j in i:
-            temp.append(list(i for i in j if i not in stopwords))
+            stopped = False
+            for k in j:
+                if k in stopwords:
+                    stopped = True
+            if stopped == False:
+                temp.append(j)
         new_comments.append(temp)
 
     #Remove all empty arrays as a result of the stopwords removal
-    new_comments = [[ele for ele in array if ele != []] for array in new_comments]
-
+    new_comments = [ele for ele in new_comments if ele != []]
+    print(new_comments)
     return new_comments

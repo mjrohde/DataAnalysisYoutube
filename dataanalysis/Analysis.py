@@ -1,6 +1,5 @@
 import pandas as pd
 import regex as re
-import nltk
 
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
@@ -44,7 +43,7 @@ def load_csv(filepath):
 
 def clean_text():
     comments = []
-    data = load_csv("../Dataset/YT_Videos_Comments.csv")
+    data = load_csv("/Users/markusio/Library/Mobile Documents/com~apple~CloudDocs/Studies/AdvancedDataAnalysis/Project/YoutubeDataAnalysis/Dataset/YT_Videos_Comments.csv")
     comments = data['Comment (Actual)']
 
     #Tokenize the comments
@@ -54,13 +53,13 @@ def clean_text():
     stopped_comments = RemoveStopwords(tokenized_comments)
 
     #Stemming
-    stemmed_comments = Stemming(stopped_comments)
+    #stemmed_comments = Stemming(stopped_comments)
 
-    vectorized_bow = VectorizationTfIdf(stemmed_comments)
+    #vectorized_bow = VectorizationTfIdf(stemmed_comments)
 
-    lsa_result = lsa(stemmed_comments)
+    #lsa_result = lsa(stemmed_comments)
     
-    return lsa_result
+    return stopped_comments
             
         
 
