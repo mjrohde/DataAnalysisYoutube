@@ -2,13 +2,24 @@ import pandas as pd
 from utils.converter import convertArrayString
 from sklearn.feature_extraction.text import CountVectorizer
 
-'''
+
+def VectorizationBOW(processed_comments):
+
+    ''' Performs Bag-of-Words vectorization
+
     Takes a pre-processed list of comments and performs a Bag-of-Words vectorization
     using CountVectorizer from scikit-learn
-'''
-def VectorizationBOW(processed_comments):
-    string_array = convertArrayString(processed_comments)
-    vect = CountVectorizer(ngram_range=(2,2))
-    matrix = vect.fit_transform(string_array)
-    df_output = pd.DataFrame(data = matrix.toarray(), columns = vect.get_feature_names_out())
-    return df_output.T.tail(20)
+
+    Parameters
+    ----------
+    processed_comments : A list of preprocessed comments
+
+    Returns
+    -------
+    document_term_df.T : The transpose of the dataframe
+    '''
+    processed_strings = convertArrayString(processed_comments)
+    vectorizer = CountVectorizer(ngram_range=(2,2))
+    term_document_matrix = vectorizer.fit_transform(processed_strings)
+    document_term_df = pd.DataFrame(data = term_document_matrix.toarray(), columns = vectorizer.get_feature_names_out())
+    return document_term_df.T

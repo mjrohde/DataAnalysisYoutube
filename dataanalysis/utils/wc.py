@@ -1,20 +1,22 @@
-import matplotlib as plt
+import matplotlib.pyplot as plt
 from wordcloud import WordCloud
-from utils.converter import convertArrayString
 
-''' Creates a wordcloud 
+
+def generate_and_display_wordcloud(topic_vector, feature_names):
+    ''' Creates a wordcloud 
     
-    Creates a wordcloud based on the loaded corpus to better understand
-    the documents and the corpus in general. The wordcloud is presented
-    using matplotlib.
-'''
+    Creates a wordcloud based on a specified topic which is obtained
+    through semantic analysis techniques.
 
-def wordcloud_image(comments):
-    string_array = convertArrayString(comments)
-    long_string = ','.join(i for i in string_array)
+    Parameters
+    ----------
+    topic_vector : The vector representation of a topic obtained through LSA or LDA
 
-    wordcloud = WordCloud(background_color="white", max_words=5000, contour_color=5)
-    wordcloud.generate(long_string)
-
+    feature_names : A list of the feature names extracted from TF-IDF vectorization
+    '''
+    topic_words = ' '.join(word[0] for word in sorted(zip(feature_names, topic_vector), key=lambda x: x[1], reverse=True)[:30])
+    wordcloud = WordCloud()
+    wordcloud.generate(topic_words)
     plt.imshow(wordcloud)
+    plt.axis('off')
     plt.show()

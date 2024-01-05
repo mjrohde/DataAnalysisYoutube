@@ -1,21 +1,26 @@
 import regex as re
 from nltk.util import ngrams
 
-''' Tokenizes the documents into bigrams
+def tokenize_comments(comments):
+    ''' Tokenizes the documents into bigrams
 
     Loops through every document and removes all punctuations
     and converts the text to lowercase. Both important for 
     further pre-processing, and to make the data as reliable 
     as possible
-'''
 
-def TokenizeComments(comments):
-    tokenized = []
+    Parameters
+    ----------
+    comments : A list of all comments extracted from the csv
 
-    for i in range(0, len(comments)):
-        comments[i] = re.sub("[^-9A-Za-z ]", "", str(comments[i]).strip())
-        comments[i] = comments[i].lower()
+    Returns
+    -------
+    ngram_tokens : A list of lowercase, no punctuation or symbols bigrams
+    '''
+    ngram_tokens = []
+    for comment in comments:
+        cleaned_comment = re.sub("[^-9A-Za-z ]", "", str(comment).strip())
+        lowercased_comment = cleaned_comment.lower()
 
-       #Tokenizing the comments into n-grams, with n=2, making it a bigram
-        tokenized.append(list(ngrams(str(comments[i]).split(), 2)))
-    return tokenized
+        ngram_tokens.append(list(ngrams(str(lowercased_comment).split(), 2)))
+    return ngram_tokens

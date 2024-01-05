@@ -1,37 +1,38 @@
 import pandas as pd
-import regex as re
 
-from wordcloud import WordCloud
-import matplotlib.pyplot as plt
-
-from cleaning.tokenize import TokenizeComments
-from cleaning.stopwords import RemoveStopwords
-from cleaning.stemming import Stemming
-
-from sklearn.decomposition import LatentDirichletAllocation
-from sklearn.decomposition import TruncatedSVD
-
-from vectorization.bow import VectorizationBOW
-from vectorization.tf_idf import VectorizationTfIdf
+from cleaning.tokenize import tokenize_comments
+from cleaning.stopwords import remove_stopwords
+from cleaning.stemming import stemming
 
 from topic.lsa import lsa
-from utils.converter import convertArrayString
+from topic.lda import lda
 
-'''Loads the data
+def load_csv(filepath):
+
+    '''Loads the data
 
     Uses Pandas to load the csv into memory and extracts the
     actual comments column from the loaded data. It then produces
-    a DataFrame for easier visualization of the data. 
+    a DataFrame for easier visualization of the data.
 
-    Returns the dataframe, specifying the number of rows to be 
+    Parameters
+    ----------
+    filepath : a string of the path to the csv file
+
+    Returns
+    -------
+    df.head() : A dataframe, specifying the number of rows to be 
     expected
-'''
-def load_csv(filepath):
+    '''
     data = pd.read_csv(filepath, usecols=['Comment (Actual)'])
     df = pd.DataFrame(data=data)
     return df.head(100)
 
-''' Cleans the text
+
+
+def clean_text():
+
+    ''' Cleans the text
 
     Performs both removal of punctuations and converts the document
     to lowercase. Performs tokenization to produce n-grams, in this case, 
@@ -39,27 +40,27 @@ def load_csv(filepath):
     the words to remove the suffixes for better and more accurate topic
     modelling.
 
-'''
-
-def clean_text():
-    comments = []
-    data = load_csv("/Users/markusio/Library/Mobile Documents/com~apple~CloudDocs/Studies/AdvancedDataAnalysis/Project/YoutubeDataAnalysis/Dataset/YT_Videos_Comments.csv")
-    comments = data['Comment (Actual)']
+    
+    '''
+    youtube_comments = []
+    dataset = load_csv("../Dataset/YT_Videos_Comments.csv")
+    youtube_comments = dataset['Comment (Actual)']
 
     #Tokenize the comments
-    tokenized_comments = TokenizeComments(comments)
+    tokenized_comments = tokenize_comments(youtube_comments)
 
     #Remove stop words from the comments
-    stopped_comments = RemoveStopwords(tokenized_comments)
+    stopped_comments = remove_stopwords(tokenized_comments)
 
     #Stemming
-    #stemmed_comments = Stemming(stopped_comments)
-
+    stemmed_comments = stemming(stopped_comments)
     #vectorized_bow = VectorizationTfIdf(stemmed_comments)
 
-    #lsa_result = lsa(stemmed_comments)
+    #lsa_result = lsa(stemmed_comments, 1)
+    lda_result = lda(stemmed_comments, 2)
+
+    return lda_result
     
-    return stopped_comments
             
         
 
