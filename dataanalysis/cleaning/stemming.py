@@ -9,11 +9,20 @@ def stemming(removed_stopwords_comments):
 
     Parameters
     ----------
-    removed_stopwords_comments : A list of comments where all stopwords are removed
+    removed_stopwords_comments : list
+        A list of comments where all stopwords are removed
 
     Returns
     -------
-    stemmed_comments : A list of stemmed comments
+    stemmed_comments : list
+        A list of stemmed comments
+
+
+    Examples
+    --------
+    >>> comments = [['running', 'quickly'], ['jumping', 'over', 'fence']]
+    >>> stemming(comments)
+    [['run', 'quickli'], ['jump', 'over', 'fence']]
     '''
     stemmed_comments = []
     ps = nltk.PorterStemmer()

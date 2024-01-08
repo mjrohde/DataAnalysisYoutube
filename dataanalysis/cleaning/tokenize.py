@@ -11,11 +11,13 @@ def tokenize_comments(comments):
 
     Parameters
     ----------
-    comments : A list of all comments extracted from the csv
+    comments : list
+        A list of all comments extracted from the csv
 
     Returns
     -------
-    ngram_tokens : A list of lowercase, no punctuation or symbols bigrams
+    ngram_tokens : list     
+        A list of lowercase, no punctuation or symbols bigrams
     '''
     ngram_tokens = []
     for comment in comments:

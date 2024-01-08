@@ -30,8 +30,8 @@ def lda(comments, index):
     document_topic_probabilities = lda_model.fit_transform(tf_idf)
 
     #Prints the coherence between the topics and the specified document
-    print("Document 0:")
-    for topic_index, topic_probability in enumerate(document_topic_probabilities[1]):
+    print(f"Document: {index}")
+    for topic_index, topic_probability in enumerate(document_topic_probabilities[index]):
         print(f"Topic {topic_index}: {topic_probability * 100}")
     print("\n")
     
