@@ -1,6 +1,7 @@
 from utils.converter import convertArrayString
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
+import numpy as np
 
 def VectorizationTfIdf(processed_comments):
 
@@ -23,5 +24,6 @@ def VectorizationTfIdf(processed_comments):
     tfidf_vectorizer = TfidfVectorizer(use_idf=True, max_features=100, smooth_idf=True, max_df=70)
     tfidf_matrix = tfidf_vectorizer.fit_transform(processed_strings)
     tfidf_dataframe = pd.DataFrame(tfidf_matrix.toarray(), columns=tfidf_vectorizer.get_feature_names_out())
-    print(tfidf_dataframe)
+    '''print("Vocabulary")
+    print(tfidf_vectorizer.vocabulary_)'''
     return tfidf_dataframe, tfidf_vectorizer.get_feature_names_out()

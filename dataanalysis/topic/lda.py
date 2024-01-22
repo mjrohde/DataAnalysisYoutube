@@ -27,7 +27,7 @@ def lda(comments, index):
     tf_idf, terms = VectorizationTfIdf(comments)
     bow = VectorizationBOW(comments)
     lda_model = LatentDirichletAllocation(n_components=10, learning_method='online', random_state=42, max_iter=1)
-    document_topic_probabilities = lda_model.fit_transform(tf_idf)
+    document_topic_probabilities = lda_model.fit_transform(bow)
 
     #Prints the coherence between the topics and the specified document
     print(f"Document: {index}")

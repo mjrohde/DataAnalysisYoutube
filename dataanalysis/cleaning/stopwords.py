@@ -23,7 +23,7 @@ def remove_stopwords(tokenized_comments):
     '''
     filtered_comments = []
     stopwords_list = nltk.corpus.stopwords.words('english')
-    with open ("stopwords.txt", "r") as f:
+    with open ("/Users/markusio/Library/Mobile Documents/com~apple~CloudDocs/Studies/AdvancedDataAnalysis/Project/YoutubeDataAnalysis/DataAnalysisYoutube/dataanalysis/cleaning/stopwords.txt", "r") as f:
         data = f.readlines()
         for i in data:
             stopwords_list.append(i)
