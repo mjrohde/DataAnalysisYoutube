@@ -14,7 +14,7 @@ def generate_and_display_wordcloud(topic_vector, feature_names):
 
     feature_names : A list of the feature names extracted from TF-IDF vectorization
     '''
-    topic_words = ' '.join(word[0] for word in sorted(zip(feature_names, topic_vector), key=lambda x: x[1], reverse=True)[:30])
+    topic_words = ' '.join(word[0] for word in sorted(zip(feature_names, topic_vector), key=lambda x: x[1], reverse=True)[:20])
     wordcloud = WordCloud()
     wordcloud.generate(topic_words)
     plt.imshow(wordcloud)

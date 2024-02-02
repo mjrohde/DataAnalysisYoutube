@@ -1,4 +1,6 @@
 from sklearn.decomposition import TruncatedSVD
+from gensim.models.coherencemodel import CoherenceModel
+import gensim.corpora as corpora
 
 from vectorization.tf_idf import VectorizationTfIdf
 from vectorization.bow import VectorizationBOW
@@ -23,8 +25,9 @@ def lsa(comments, index):
     '''
     tf_idf_matrix, feature_names = VectorizationTfIdf(comments)
     bow = VectorizationBOW(comments)
-    lsa_model = TruncatedSVD(n_components=10, algorithm='randomized', n_iter=100)
+    lsa_model = TruncatedSVD(n_components=3, algorithm='randomized', n_iter=100)
     lsa = lsa_model.fit_transform(tf_idf_matrix)
+
 
     #Prints the topics and the 10 most prevalent words in descending order.
     #Inspiration: https://www.kaggle.com/code/rajmehra03/topic-modelling-using-lda-and-lsa-in-sklearn/notebook

@@ -1,4 +1,5 @@
 import pandas as pd
+from gensim.models import Word2Vec
 
 from cleaning.tokenize import tokenize_comments
 from cleaning.stopwords import remove_stopwords
@@ -26,7 +27,7 @@ def load_csv(filepath):
     '''
     data = pd.read_csv(filepath, usecols=['Comment (Actual)'])
     df = pd.DataFrame(data=data)
-    return df.head(12000)
+    return df.head(len(data))
 
 
 
@@ -54,12 +55,13 @@ def clean_text():
 
     #Stemming
     stemmed_comments = stemming(stopped_comments)
-    #vectorized_bow = VectorizationTfIdf(stemmed_comments)
 
-    #lsa_result = lsa(stemmed_comments, 1)
-    lda_result = lda(stemmed_comments, 2)
+    
+    #vectorized_bow = VectorizationTfIdf(stemmed_comments)  
+    lsa_result = lsa(stemmed_comments, 2)
+    #lda_result = lda(stemmed_comments, 1)
 
-    return lda_result
+    return lsa_result
     
             
         

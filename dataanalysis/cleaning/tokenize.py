@@ -1,5 +1,5 @@
 import regex as re
-from nltk.util import ngrams
+from nltk.tokenize import word_tokenize
 
 def tokenize_comments(comments):
     ''' Tokenizes the documents into bigrams
@@ -19,10 +19,13 @@ def tokenize_comments(comments):
     ngram_tokens : list     
         A list of lowercase, no punctuation or symbols bigrams
     '''
-    ngram_tokens = []
+    cleaned_comments = []
+    tokenized_comments = []
     for comment in comments:
         cleaned_comment = re.sub("[^-9A-Za-z ]", "", str(comment).strip())
         lowercased_comment = cleaned_comment.lower()
-
-        ngram_tokens.append(list(ngrams(str(lowercased_comment).split(), 2)))
-    return ngram_tokens
+        cleaned_comments.append(lowercased_comment)
+    for j in cleaned_comments:  
+        tokenized_sentence = word_tokenize(j)
+        tokenized_comments.append(tokenized_sentence)
+    return tokenized_comments

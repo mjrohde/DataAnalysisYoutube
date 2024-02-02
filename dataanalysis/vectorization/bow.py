@@ -20,7 +20,7 @@ def VectorizationBOW(processed_comments):
     document_term_df.T : The transpose of the dataframe
     '''
     processed_strings = convertArrayString(processed_comments)
-    vectorizer = CountVectorizer(analyzer='word', max_features=10)
+    vectorizer = CountVectorizer(analyzer='word', max_features=10, ngram_range=(2,2))
     term_document_matrix = vectorizer.fit_transform(processed_strings)
     document_term_df = pd.DataFrame(data = term_document_matrix.toarray(), columns = vectorizer.get_feature_names_out())
     print(document_term_df)

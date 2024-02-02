@@ -15,14 +15,10 @@ def convertArrayString(stemmed_array):
                         for vectorization
     '''
     processed_strings = []
-    current_comment = ''
+    comment = ''
     for stemmed_word_array in stemmed_array:
+        comment = ''
         for word in stemmed_word_array:
-            temp_comment = ' '.join(char for char in word if char not in current_comment)
-            if temp_comment == '': 
-                current_comment += ""
-            else:
-                current_comment += temp_comment + " "
-        processed_strings.append(current_comment.strip())
-        current_comment = ""
+            comment += word + " "
+        processed_strings.append(comment.strip())
     return processed_strings

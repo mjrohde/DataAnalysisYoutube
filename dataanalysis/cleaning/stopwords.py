@@ -28,12 +28,7 @@ def remove_stopwords(tokenized_comments):
         for i in data:
             stopwords_list.append(i)
     for sentence_tokens in tokenized_comments:
-        filtered_words = []
-        stop_detected = False
-        for word in sentence_tokens:
-            stop_detected = any(token in stopwords_list for token in word)
-            if not stop_detected:
-                filtered_words.append(word)
+        filtered_words = [token for token in sentence_tokens if token not in stopwords_list]
         filtered_comments.append(filtered_words)
 
     #Remove all empty arrays as a result of the stopwords removal
