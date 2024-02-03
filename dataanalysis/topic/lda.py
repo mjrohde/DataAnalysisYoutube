@@ -37,17 +37,20 @@ def lda(comments, index):
     document_topic_probabilities = lda_model.fit_transform(tf_idf)
 
     #Prints the coherence between the topics and the specified document
-    '''id2word = corpora.Dictionary(comments)
-    corpus = [id2word.doc2bow(text) for text in comments]
+    '''word_id_dictionary = corpora.Dictionary(comments)
+    corpus = [word_id_dictionary.doc2bow(text) for text in comments]
 
-    model, cm = ComputeCoherence(id2word, corpus, comments, 40, 2, 6)
-    limit=40; start=2; step=6;
-    x = range(start, limit, step)
-    plt.plot(x, cm)
+    max_topics=40; start=2; step=6;
+    lda_models, coherence_scores = ComputeCoherence(word_id_dictionary, corpus, comments, 40, 2, 6)
+    num_topics_range = range(start, max_topics, step)
+    
+    #Plotting
+    plt.plot(num_topics_range, coherence_scores)
     plt.xlabel("Num Topics")
     plt.ylabel("Coherence score")
     plt.legend(("coherence_values"), loc='best')
-    plt.show() '''
+    plt.show()'''
+
     #Prints the topics and the 10 most prevalent words in descending order.
     #Inspiration: https://www.kaggle.com/code/rajmehra03/topic-modelling-using-lda-and-lsa-in-sklearn/notebook
     for topic_index, topic_vector in enumerate(lda_model.components_):
