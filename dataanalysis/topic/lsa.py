@@ -8,7 +8,7 @@ from vectorization.bow import VectorizationBOW
 from utils.wc import generate_and_display_wordcloud
 
 
-def lsa(comments, index):
+def lsa(comments, index, vectorization_choice):
     ''' Performs Latent Semantic Analysis
 
     Takes a list of pre-processed comments, and creates a document-term
@@ -23,19 +23,26 @@ def lsa(comments, index):
 
     index : An integer used to display a single documents connection with the generated topics
     '''
-    tf_idf_matrix, feature_names = VectorizationTfIdf(comments)
-    bow = VectorizationBOW(comments)
+    
+    
+    print("Performing Latent Semantic Analysis...")
     lsa_model = TruncatedSVD(n_components=3, algorithm='randomized', n_iter=100)
-    lsa = lsa_model.fit_transform(tf_idf_matrix)
+    if vectorization_choice == "TF-IDF":
+        tf_idf_matrix, feature_names = VectorizationTfIdf(comments)
+        lsa_model.fit_transform(tf_idf_matrix)
+    else:
+        bow = VectorizationBOW(comments)
+        lsa_model.fit_transform(bow)
 
 
     #Prints the topics and the 10 most prevalent words in descending order.
     #Inspiration: https://www.kaggle.com/code/rajmehra03/topic-modelling-using-lda-and-lsa-in-sklearn/notebook
+    print("Finalizing...\n")
     for topic_index, topic_vector in enumerate(lsa_model.components_):
         word_vector = zip(feature_names, topic_vector)
         top_words = sorted(word_vector, key=lambda x: x[1], reverse=True)[:10]
         topic_words_str = ' '.join(word[0] for word in top_words)
-        print(f"Topic {topic_index}: {topic_words_str}\n")
+        print(f"Topic {topic_index + 1}: {topic_words_str}\n")
 
     #Generates a wordcloud with the 30 most prevalent words in a specified topic
     generate_and_display_wordcloud(lsa_model.components_[index], feature_names)

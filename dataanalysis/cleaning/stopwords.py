@@ -27,10 +27,12 @@ def remove_stopwords(tokenized_comments):
         data = f.readlines()
         for i in data:
             stopwords_list.append(i)
+    #Using set instead of list for O(1) look up times, giving better performance, and faster execution 
+    stopwords_set = set(stopwords_list)
+    print("Removing stopwords...")
     for sentence_tokens in tokenized_comments:
-        filtered_words = [token for token in sentence_tokens if token not in stopwords_list]
-        filtered_comments.append(filtered_words)
+        filtered_words = [token for token in sentence_tokens if token not in stopwords_set]
+        if filtered_words:
+            filtered_comments.append(filtered_words)
 
-    #Remove all empty arrays as a result of the stopwords removal
-    filtered_comments = [sentence for sentence in filtered_comments if sentence != []]
     return filtered_comments

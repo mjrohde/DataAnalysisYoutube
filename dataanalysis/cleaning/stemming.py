@@ -26,7 +26,9 @@ def stemming(removed_stopwords_comments):
     '''
     stemmed_comments = []
     ps = nltk.PorterStemmer()
+    print("Stemming started...")
     for word in removed_stopwords_comments:
         temp = [ps.stem(i) for i in word]
         stemmed_comments.append(temp)
+    print("Pre-processing done...")
     return stemmed_comments

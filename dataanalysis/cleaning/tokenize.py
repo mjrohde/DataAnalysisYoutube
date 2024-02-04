@@ -21,6 +21,8 @@ def tokenize_comments(comments):
     '''
     cleaned_comments = []
     tokenized_comments = []
+    print("Pre-processing started...")
+    print("Tokenizing...")
     for comment in comments:
         cleaned_comment = re.sub("[^-9A-Za-z ]", "", str(comment).strip())
         lowercased_comment = cleaned_comment.lower()
