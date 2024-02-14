@@ -1,11 +1,13 @@
 import nltk
 
+nltk.download('punkt')
+
 def stemming(removed_stopwords_comments):
     ''' Performs stemming on a corpus of documents
 
-    Takes a list of ngrams where stopwords are removed based
-    on nltk's corpus of stopwords in english. The stemming is performed
-    with a PorterStemmer.
+    Takes a list of tokenized comments and removes the suffixes to make similar words equal
+    such that they can be used more effectively and easier during vectorization and 
+    semantic analysis. The stemming is performed with a PorterStemmer.
 
     Parameters
     ----------
@@ -24,11 +26,12 @@ def stemming(removed_stopwords_comments):
     >>> stemming(comments)
     [['run', 'quickli'], ['jump', 'over', 'fence']]
     '''
-    stemmed_comments = []
     ps = nltk.PorterStemmer()
-    print("Stemming started...")
-    for word in removed_stopwords_comments:
-        temp = [ps.stem(i) for i in word]
-        stemmed_comments.append(temp)
-    print("Pre-processing done...")
+    print('Stemming started...')
+
+    stemmed_comments = [
+        [ps.stem(word) for word in comment_tokens]
+        for comment_tokens in removed_stopwords_comments if len(comment_tokens) > 3
+    ]
+    print('Pre-processing done...')
     return stemmed_comments

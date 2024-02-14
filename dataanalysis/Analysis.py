@@ -44,45 +44,43 @@ def clean_text():
     
     '''
 
+    #Allows user to choose the semantic model and the vectorization technique used for the ouptut.
     choice = True
     while choice:
-        semantic_choice = input("Choose the semantic analysis: lsa or lda \n\n")
-        if semantic_choice.lower() == "lsa" or semantic_choice.lower() == "lda":
+        semantic_choice = input('Choose the semantic analysis: \nlsa or lda:\t')
+        if semantic_choice.lower() == 'lsa' or semantic_choice.lower() == 'lda':
             choice = False
         else:
             print("Please type either lsa or lda\n\n")
     choice = True
     while choice:
-        vectorization_choice = input("Choose Vectorization technique (Type 1 or 2): \n 1:TF-IDF \n 2:BoW \n\n")
-        if vectorization_choice == "1" or vectorization_choice == "2":
-            if vectorization_choice == "1":
-                vectorization_choice = "TF-IDF"
+        vectorization_choice = input('Choose Vectorization technique (Type 1 or 2): \nTF-IDF = 1 BoW = 2:\t').strip()
+        if vectorization_choice == '1' or vectorization_choice == '2':
+            if vectorization_choice == '1':
+                vectorization_choice = 'TF-IDF'
             else:
-                vectorization_choice = "BoW"
+                vectorization_choice = 'BoW'
             choice = False
         else:
-            print("Please enter the digit 1 or 2")
+            print('Please enter the digit 1 or 2')
 
 
+    #Loading data
     youtube_comments = []
-    dataset = load_csv("../Dataset/YT_Videos_Comments.csv")
+    dataset = load_csv('../Dataset/YT_Videos_Comments.csv')
     youtube_comments = dataset['Comment (Actual)']
 
-    #Tokenize the comments
+    #Pre-processing
     tokenized_comments = tokenize_comments(youtube_comments)
-
-    #Remove stop words from the comments
     stopped_comments = remove_stopwords(tokenized_comments)
-
-    #Stemming
     stemmed_comments = stemming(stopped_comments)
 
 
     #Semantic Analysis
-    if semantic_choice.lower() == "lsa":
-        lsa(stemmed_comments, 2, vectorization_choice)
-    elif semantic_choice.lower() == "lda":
-        lda(stemmed_comments, 2, vectorization_choice)
+    if semantic_choice.lower() == 'lsa':
+        lsa(stemmed_comments, vectorization_choice)
+    elif semantic_choice.lower() == 'lda':
+        lda(stemmed_comments, vectorization_choice)
 
     
             

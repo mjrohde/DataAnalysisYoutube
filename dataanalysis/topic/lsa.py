@@ -1,14 +1,18 @@
 from sklearn.decomposition import TruncatedSVD
-from gensim.models.coherencemodel import CoherenceModel
+import matplotlib.pyplot as plt
 import gensim.corpora as corpora
+from matplotlib.backends.backend_pdf import PdfPages
+import numpy as np
+import os
+import sys
 
 from vectorization.tf_idf import VectorizationTfIdf
 from vectorization.bow import VectorizationBOW
 
-from utils.wc import generate_and_display_wordcloud
+from topic.evaluation.topic_coherence import TopicCoherence
 
 
-def lsa(comments, index, vectorization_choice):
+def lsa(comments, vectorization_choice):
     ''' Performs Latent Semantic Analysis
 
     Takes a list of pre-processed comments, and creates a document-term
@@ -25,26 +29,56 @@ def lsa(comments, index, vectorization_choice):
     '''
     
     
-    print("Performing Latent Semantic Analysis...")
-    lsa_model = TruncatedSVD(n_components=3, algorithm='randomized', n_iter=100)
+    print('Performing Latent Semantic Analysis...')
     if vectorization_choice == "TF-IDF":
-        tf_idf_matrix, feature_names = VectorizationTfIdf(comments)
-        lsa_model.fit_transform(tf_idf_matrix)
+        number_of_components = 18
     else:
-        bow = VectorizationBOW(comments)
-        lsa_model.fit_transform(bow)
+        number_of_components = 30
 
+    lsa_model = TruncatedSVD(n_components=number_of_components, algorithm='randomized', n_iter=100)
+    if vectorization_choice == 'TF-IDF':
+        vectorizer, dataframe, feature_names, document_term_matrix = VectorizationTfIdf(comments)
+        lsa_model.fit_transform(dataframe)
+    else:
+        vectorizer, dataframe, feature_names, document_term_matrix = VectorizationBOW(comments)
+        lsa_model.fit_transform(dataframe)
+    
 
-    #Prints the topics and the 10 most prevalent words in descending order.
-    #Inspiration: https://www.kaggle.com/code/rajmehra03/topic-modelling-using-lda-and-lsa-in-sklearn/notebook
-    print("Finalizing...\n")
-    for topic_index, topic_vector in enumerate(lsa_model.components_):
-        word_vector = zip(feature_names, topic_vector)
-        top_words = sorted(word_vector, key=lambda x: x[1], reverse=True)[:10]
-        topic_words_str = ' '.join(word[0] for word in top_words)
-        print(f"Topic {topic_index + 1}: {topic_words_str}\n")
+    #Calculates the Topic Coherence
+    ''' word_id_dictionary = corpora.Dictionary(comments)
 
-    #Generates a wordcloud with the 30 most prevalent words in a specified topic
-    generate_and_display_wordcloud(lsa_model.components_[index], feature_names)
+    max_topics=50; start=10; step=4;
+    coherence_scores = TopicCoherence(word_id_dictionary, comments, dataframe, max_topics, start, step)
+    num_topics_range = range(start, max_topics, step)
+    
+    #Plotting the topic coherence
+    plt.plot(num_topics_range, coherence_scores)
+    plt.xlabel("Num Topics")
+    plt.ylabel("Coherence score")
+    plt.legend(("coherence_values"), loc='best')
+    plt.show()'''
+
+    print('Finalizing...')
+    with PdfPages(f'{sys.path[0]}/Results/LSA_{vectorization_choice}_Visualization.pdf') as pdf:
+        #Inspiration: https://www.kaggle.com/code/rajmehra03/topic-modelling-using-lda-and-lsa-in-sklearn/notebook
+        for topic_idx, topic_weights in enumerate(lsa_model.components_):
+            fig, ax = plt.subplots(figsize=(10, 8))
+            word_weight_pairs = [(feature_names[i], weight) for i, weight in enumerate(topic_weights)]
+            word_weight_pairs.sort(key=lambda x: x[1], reverse=True)
+            top_words, top_weights = zip(*word_weight_pairs[:10])
+
+            y_pos = np.arange(len(top_words))
+            ax.barh(y_pos, top_weights, align='center')
+            ax.set_yticks(y_pos)
+            ax.set_yticklabels(top_words)
+            ax.invert_yaxis()  # Invert y-axis to have the highest weight on top
+            ax.set_xlabel('Weight')
+            ax.set_title(f'Topic {topic_idx + 1}')
+            
+            plt.tight_layout()
+            pdf.savefig(fig)
+            plt.close(fig)
+    os.open(f'{sys.path[0]}/Results/LSA_{vectorization_choice}_Visualization.')
+   
 
 

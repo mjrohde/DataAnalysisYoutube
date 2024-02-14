@@ -1,15 +1,14 @@
 import nltk
+import sys
 
 def remove_stopwords(tokenized_comments):
     ''' Removes stopwords from list of comments
 
-    Uses the nltk's corpus of stopwords to eliminate stopwords
-    from each document in the corpus. The function uses a loop
-    to iterate over each word in every document, and removes
-    the word if it exist in nltk's corpus. If not contained
-    it is entered into a new list.
-
-    After the removal process, any resulting empty arrays are filtered out.
+    Combines a custom stopwords list with the nltk's corpus of stopwords to eliminate stopwords
+    from each document in the corpus. The function uses list comprehension 
+    to check if a token is in the set of stopwords, and adds the words not contained
+    in the set to a list. and avoids adding empty arrays as a result of the stopword
+    removal
 
     Parameters
     ----------
@@ -21,18 +20,16 @@ def remove_stopwords(tokenized_comments):
     filtered_comments : list
         A list of comments with all stopwords removed  
     '''
-    filtered_comments = []
+    print('Removing stopwords...')
     stopwords_list = nltk.corpus.stopwords.words('english')
-    with open ("/Users/markusio/Library/Mobile Documents/com~apple~CloudDocs/Studies/AdvancedDataAnalysis/Project/YoutubeDataAnalysis/DataAnalysisYoutube/dataanalysis/cleaning/stopwords.txt", "r") as f:
-        data = f.readlines()
-        for i in data:
-            stopwords_list.append(i)
-    #Using set instead of list for O(1) look up times, giving better performance, and faster execution 
-    stopwords_set = set(stopwords_list)
-    print("Removing stopwords...")
-    for sentence_tokens in tokenized_comments:
-        filtered_words = [token for token in sentence_tokens if token not in stopwords_set]
-        if filtered_words:
-            filtered_comments.append(filtered_words)
+
+    with open(f'{sys.path[0]}/cleaning/stopwords.txt', 'r') as f:
+        custom_stopwords = {line.strip().lower() for line in f}
+    stopwords_set = set(stopwords_list).union(custom_stopwords)
+
+    filtered_comments = [
+        [token.strip() for token in sentence_tokens if token.strip() not in stopwords_set]
+        for sentence_tokens in tokenized_comments if sentence_tokens
+    ]
 
     return filtered_comments

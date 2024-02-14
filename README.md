@@ -25,6 +25,7 @@ python3 Analysis.py
 
 # Runtime Example
 The program requires user interaction to complete. It will require the user to enter the type of semantic analysis (lsa or lda) and the vectorization technique ((1)TF-IDF or (2)BoW). The following image shows an example of input:
+
 ![Input User](Images/Working_example.png)
 
 # Code Description
@@ -33,12 +34,12 @@ However, to lower the runtime, they are commented out to ensure it does not take
 
 ### Examples
 #### Coherence Scores
-![Coherence Scores](Images/Coherence_Scores.png)
+LSA with BoW
+![Coherence Scores BoW LSA](Images/LSA_BoW_Coherence.png)
+LSA with TF-IDF
+![Coherence Scores TF-IDF LSA](Images/LSA_TF-IDF_Coherence.png)
 
-Here, the code has been commented out. Altough this code has been run, with the following result:
-![Coherence Scores Graph](Images/Coherence_Scores_Graph.png)
 
-It is not required to run this snippet for every runtime of the program. Therefore, it has been commented out.
 
 
 

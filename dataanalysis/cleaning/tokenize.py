@@ -19,15 +19,11 @@ def tokenize_comments(comments):
     ngram_tokens : list     
         A list of lowercase, no punctuation or symbols bigrams
     '''
-    cleaned_comments = []
     tokenized_comments = []
-    print("Pre-processing started...")
-    print("Tokenizing...")
+    print('Pre-processing started...')
+    print('Tokenizing...')
     for comment in comments:
-        cleaned_comment = re.sub("[^-9A-Za-z ]", "", str(comment).strip())
+        cleaned_comment = re.sub('[^0-9A-Za-z ]', '', str(comment).strip())
         lowercased_comment = cleaned_comment.lower()
-        cleaned_comments.append(lowercased_comment)
-    for j in cleaned_comments:  
-        tokenized_sentence = word_tokenize(j)
-        tokenized_comments.append(tokenized_sentence)
+        tokenized_comments.append(word_tokenize(lowercased_comment))
     return tokenized_comments
