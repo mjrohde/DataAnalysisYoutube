@@ -38,12 +38,10 @@ def lda(comments, vectorization_choice, coherence_choice):
     number_of_topics = 35
     lda_model = LatentDirichletAllocation(n_components=number_of_topics, learning_method='online', random_state=42, max_iter=100)
     if vectorization_choice == 'TF-IDF':
-        vectorization_model = VectorizationTfIdf()
+        vectorizer, dataframe, feature_names, document_term_matrix = VectorizationTfIdf(comments)
     else:
-        vectorization_model = VectorizationBOW()
+        vectorizer, dataframe, feature_names, document_term_matrix = VectorizationBOW(comments)
 
-    #Apply the selected vectorization model
-    vectorizer, dataframe, feature_names, document_term_matrix = vectorization_model(comments)
     lda_model.fit_transform(dataframe)
 
         

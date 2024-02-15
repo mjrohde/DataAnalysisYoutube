@@ -23,9 +23,14 @@ def lsa(comments, vectorization_choice, coherence_choice):
 
     Parameters
     ----------
-    comments : A preprocessed list of comments
+    comments : list
+    A preprocessed list of comments
 
-    index : An integer used to display a single documents connection with the generated topics
+    vectorization_choice : str
+    An integer used to display a single documents connection with the generated topics
+
+    coherence_choice : bool
+    A Boolean value to determine if coherence scores should be calculated
     '''
     
     
@@ -33,13 +38,12 @@ def lsa(comments, vectorization_choice, coherence_choice):
     number_of_components = 18 if vectorization_choice == "TF-IDF" else 25
 
     lsa_model = TruncatedSVD(n_components=number_of_components, algorithm='randomized', n_iter=100)
+    
     if vectorization_choice == 'TF-IDF':
-        vectorization_model = VectorizationTfIdf()
+        vectorizer, dataframe, feature_names, document_term_matrix = VectorizationTfIdf(comments)
     else:
-        vectorization_model = VectorizationBOW()
+        vectorizer, dataframe, feature_names, document_term_matrix = VectorizationBOW(comments)
 
-    #Apply the selected vectorization model
-    vectorizer, dataframe, feature_names, document_term_matrix = vectorization_model(comments)
     lsa_model.fit_transform(dataframe)
     
 
