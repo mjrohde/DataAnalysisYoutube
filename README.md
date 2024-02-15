@@ -32,18 +32,18 @@ The following image shows an example of input:
 
 # Code Description
 
-#### Coherence Scores
+### Coherence Scores
 The coherence scores for all four models have been computed. 
 As shown in the Runtime Example section above, the user can opt to perform the same calculation.
 If this is unwanted, take a look at the results below.
 
-##### LSA
+#### LSA
 LSA with BoW
-![Coherence Scores BoW LSA](Images/LSA_BOW_Coherence.png)
+![Coherence Scores BoW LSA](Images/LSA_BOW_Coherence)
 LSA with TF-IDF
 ![Coherence Scores TF-IDF LSA](Images/LSA_TFIDF_UMASS.png)
 
-##### LDA
+#### LDA
 LDA with TF-IDF
 ![Coherence Scores TF-IDF LDA](Images/LDA_TFIDF_UMASS.png)
 LDA with BoW
