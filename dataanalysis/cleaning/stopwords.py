@@ -7,8 +7,7 @@ def remove_stopwords(tokenized_comments):
     Combines a custom stopwords list with the nltk's corpus of stopwords to eliminate stopwords
     from each document in the corpus. The function uses list comprehension 
     to check if a token is in the set of stopwords, and adds the words not contained
-    in the set to a list. and avoids adding empty arrays as a result of the stopword
-    removal
+    in the set to a list.
 
     Parameters
     ----------

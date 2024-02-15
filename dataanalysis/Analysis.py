@@ -10,7 +10,7 @@ from topic.lda import lda
 
 def load_csv(filepath):
 
-    '''Loads the data
+    ''' Loads the data
 
     Uses Pandas to load the csv into memory and extracts the
     actual comments column from the loaded data. It then produces
@@ -29,6 +29,57 @@ def load_csv(filepath):
     df = pd.DataFrame(data=data)
     return df.head(len(data))
 
+def get_user_input(prompt, choices):
+    ''' Gets user input
+    The user can enter their choice for the semantic model, vectorization technique, and the coherence score 
+    computation. The function will run until a valid answer is given
+
+    Parameters
+    -----------
+    prompt : str
+    A string with the instructions for the user
+
+    choices : dict
+    a dictionary where keys are the user input, and the values are the corresponding output
+
+    Returns
+    ---------
+    choices[user_input] : str
+    The value from the dictionary given in the input
+    '''
+
+    while True:
+        user_input = input(prompt).lower().strip()
+        if user_input in choices:
+            return choices[user_input]
+        else:
+            print('Invalid Choice. Please try again\n\n')
+
+
+def get_compute_coherence_choice(prompt):
+    ''' Allows user to choose if coherence score should be calculated
+
+    The user gets the chance to answer 'y'/'n' or even 'yes'/'no' to whether the 
+    coherence scores within a given range should be calculated. This is an exhaustive task, 
+    and it is recommended to answer 'n'/'no' if the goal is to see the results of the current
+    model.
+
+    Parameters
+    ----------
+    prompt : str
+    A string with the instructions for the user
+
+
+    Returns
+    -------
+    user_choice : bool
+    The value of the dictionary corresponding to the user input.
+    '''
+
+    choices = {'yes': True, 'no': False, 'y': True, 'n': False}
+    user_choice = get_user_input(prompt, choices)
+    return user_choice
+
 
 
 def clean_text():
@@ -36,33 +87,24 @@ def clean_text():
     ''' Cleans the text
 
     Performs both removal of punctuations and converts the document
-    to lowercase. Performs tokenization to produce n-grams, in this case, 
-    bigrams. Removes the stopwords from the corpus for each document. Stems
+    to lowercase. Performs tokenization to produce tokens. 
+    Removes the stopwords from the corpus for each document. Stems
     the words to remove the suffixes for better and more accurate topic
     modelling.
 
     
     '''
 
-    #Allows user to choose the semantic model and the vectorization technique used for the ouptut.
-    choice = True
-    while choice:
-        semantic_choice = input('Choose the semantic analysis: \nlsa or lda:\t')
-        if semantic_choice.lower() == 'lsa' or semantic_choice.lower() == 'lda':
-            choice = False
-        else:
-            print("Please type either lsa or lda\n\n")
-    choice = True
-    while choice:
-        vectorization_choice = input('Choose Vectorization technique (Type 1 or 2): \nTF-IDF = 1 BoW = 2:\t').strip()
-        if vectorization_choice == '1' or vectorization_choice == '2':
-            if vectorization_choice == '1':
-                vectorization_choice = 'TF-IDF'
-            else:
-                vectorization_choice = 'BoW'
-            choice = False
-        else:
-            print('Please enter the digit 1 or 2')
+    semantic_prompt = 'Choose the semantic analysis (lsa or lda):'
+    semantic_choices = {'lsa': 'LSA', 'lda': 'LDA'}
+    semantic_analysis = get_user_input(semantic_prompt, semantic_choices)
+
+    vectorization_prompt = 'Choose Vectorization technique (Type 1 for TF-IDF or 2 for BoW):'
+    vectorization_choices = {'1': 'TF-IDF', '2': 'BoW'}
+    vectorization_technique = get_user_input(vectorization_prompt, vectorization_choices)
+
+    coherence_prompt = 'Should the coherence score be computed? This will take hours... [y/n]:'
+    coherence_choice = get_compute_coherence_choice(coherence_prompt)
 
 
     #Loading data
@@ -77,10 +119,10 @@ def clean_text():
 
 
     #Semantic Analysis
-    if semantic_choice.lower() == 'lsa':
-        lsa(stemmed_comments, vectorization_choice)
-    elif semantic_choice.lower() == 'lda':
-        lda(stemmed_comments, vectorization_choice)
+    if semantic_analysis.lower() == 'LSA':
+        lsa(stemmed_comments, vectorization_technique, coherence_choice)
+    elif semantic_analysis.lower() == 'lda':
+        lda(stemmed_comments, vectorization_technique, coherence_choice)
 
     
             

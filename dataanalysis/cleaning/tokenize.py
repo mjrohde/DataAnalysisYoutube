@@ -2,12 +2,10 @@ import regex as re
 from nltk.tokenize import word_tokenize
 
 def tokenize_comments(comments):
-    ''' Tokenizes the documents into bigrams
+    ''' Tokenizes the documents for further processing
 
-    Loops through every document and removes all punctuations
-    and converts the text to lowercase. Both important for 
-    further pre-processing, and to make the data as reliable 
-    as possible
+    First, it removes all punctuation and symbols from each comment, then converts the text to lowercase. 
+    These preprocessing steps are important for normalizing the text for further analysis.
 
     Parameters
     ----------
@@ -16,8 +14,8 @@ def tokenize_comments(comments):
 
     Returns
     -------
-    ngram_tokens : list     
-        A list of lowercase, no punctuation or symbols bigrams
+    tokenized_comments : list     
+        A list of lowercase, no punctuation or symbols tokens
     '''
     tokenized_comments = []
     print('Pre-processing started...')

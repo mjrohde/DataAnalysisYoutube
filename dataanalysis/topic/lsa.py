@@ -12,7 +12,7 @@ from vectorization.bow import VectorizationBOW
 from topic.evaluation.topic_coherence import TopicCoherence
 
 
-def lsa(comments, vectorization_choice):
+def lsa(comments, vectorization_choice, coherence_choice):
     ''' Performs Latent Semantic Analysis
 
     Takes a list of pre-processed comments, and creates a document-term
@@ -30,33 +30,33 @@ def lsa(comments, vectorization_choice):
     
     
     print('Performing Latent Semantic Analysis...')
-    if vectorization_choice == "TF-IDF":
-        number_of_components = 18
-    else:
-        number_of_components = 30
+    number_of_components = 18 if vectorization_choice == "TF-IDF" else 25
 
     lsa_model = TruncatedSVD(n_components=number_of_components, algorithm='randomized', n_iter=100)
     if vectorization_choice == 'TF-IDF':
-        vectorizer, dataframe, feature_names, document_term_matrix = VectorizationTfIdf(comments)
-        lsa_model.fit_transform(dataframe)
+        vectorization_model = VectorizationTfIdf()
     else:
-        vectorizer, dataframe, feature_names, document_term_matrix = VectorizationBOW(comments)
-        lsa_model.fit_transform(dataframe)
+        vectorization_model = VectorizationBOW()
+
+    #Apply the selected vectorization model
+    vectorizer, dataframe, feature_names, document_term_matrix = vectorization_model(comments)
+    lsa_model.fit_transform(dataframe)
     
 
     #Calculates the Topic Coherence
-    ''' word_id_dictionary = corpora.Dictionary(comments)
+    if coherence_choice:
+        word_id_dictionary = corpora.Dictionary(comments)
 
-    max_topics=50; start=10; step=4;
-    coherence_scores = TopicCoherence(word_id_dictionary, comments, dataframe, max_topics, start, step)
-    num_topics_range = range(start, max_topics, step)
-    
-    #Plotting the topic coherence
-    plt.plot(num_topics_range, coherence_scores)
-    plt.xlabel("Num Topics")
-    plt.ylabel("Coherence score")
-    plt.legend(("coherence_values"), loc='best')
-    plt.show()'''
+        max_topics=50; start=10; step=4;
+        coherence_scores = TopicCoherence(word_id_dictionary, comments, dataframe, max_topics, start, step)
+        num_topics_range = range(start, max_topics, step)
+        
+        #Plotting the topic coherence
+        plt.plot(num_topics_range, coherence_scores)
+        plt.xlabel("Num Topics")
+        plt.ylabel("Coherence score")
+        plt.legend(("coherence_values"), loc='best')
+        plt.show()
 
     print('Finalizing...')
     with PdfPages(f'{sys.path[0]}/Results/LSA_{vectorization_choice}_Visualization.pdf') as pdf:
@@ -78,7 +78,7 @@ def lsa(comments, vectorization_choice):
             plt.tight_layout()
             pdf.savefig(fig)
             plt.close(fig)
-    os.open(f'{sys.path[0]}/Results/LSA_{vectorization_choice}_Visualization.')
+    os.open(f'{sys.path[0]}/Results/LSA_{vectorization_choice}_Visualization.pdf', os.O_RDONLY)
    
 
 

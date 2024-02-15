@@ -14,6 +14,10 @@ def stemming(removed_stopwords_comments):
     removed_stopwords_comments : list
         A list of comments where all stopwords are removed
 
+    Note
+    ----
+    This function filters out and does not process comments with 3 or fewer tokens.
+
     Returns
     -------
     stemmed_comments : list

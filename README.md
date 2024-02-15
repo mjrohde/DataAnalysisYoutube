@@ -34,10 +34,16 @@ However, to lower the runtime, they are commented out to ensure it does not take
 
 ### Examples
 #### Coherence Scores
+##### LSA
 LSA with BoW
 ![Coherence Scores BoW LSA](Images/LSA_BoW_Coherence.png)
 LSA with TF-IDF
-![Coherence Scores TF-IDF LSA](Images/LSA_TF-IDF_Coherence.png)
+![Coherence Scores TF-IDF LSA](Images/LSA_TF-IDF_UMASS.png)
+
+##### LDA
+LDA with TF-IDF
+![Coherence Scores TF-IDF LDA](Images/LDA_TF-IDF_UMASS.png)
+
 
 
 
