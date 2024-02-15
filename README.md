@@ -39,15 +39,15 @@ If this is unwanted, take a look at the results below.
 
 ##### LSA
 LSA with BoW
-![Coherence Scores BoW LSA](Images/LSA_BoW_Coherence.png)
+![Coherence Scores BoW LSA](Images/LSA_BOW_Coherence.png)
 LSA with TF-IDF
 ![Coherence Scores TF-IDF LSA](Images/LSA_TF-IDF_UMASS.png)
 
 ##### LDA
 LDA with TF-IDF
-![Coherence Scores TF-IDF LDA](Images/LDA_TF-IDF_UMASS.png)
+![Coherence Scores TF-IDF LDA](Images/LDA_TFIDF_UMASS.png)
 LDA with BoW
-![Coherence Scores BoW LDA](Images/LDA_BoW_UMASS.png)
+![Coherence Scores BoW LDA](Images/LDA_BOW_UMASS.png)
 
 
 
