@@ -35,7 +35,7 @@ def lsa(comments, vectorization_choice, coherence_choice):
     
     
     print('Performing Latent Semantic Analysis...')
-    number_of_components = 18 if vectorization_choice == "TF-IDF" else 25
+    number_of_components = 15
 
     lsa_model = TruncatedSVD(n_components=number_of_components, algorithm='randomized', n_iter=100)
     

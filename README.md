@@ -33,11 +33,9 @@ The following image shows an example of input:
 # Code Description
 
 #### Coherence Scores
-The coherence scores for all four models have been computed, and the results are shown below. 
-As shown in the Runtine Example, the user will have the option to run the program and compute the scores.
-However, this is exhaustive. With the current range that is computed each time now, it takes hours for the program to finish
-and determine the optimal number of topics. If it is needed to run, I would recommend to change the range in the topic_coherence.py
-and coherence.py, or change the number of steps to reduce the processing time.
+The coherence scores for all four models have been computed. 
+As shown in the Runtime Example section above, the user can opt to perform the same calculation.
+If this is unwanted, take a look at the results below.
 
 ##### LSA
 LSA with BoW
