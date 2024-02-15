@@ -41,7 +41,7 @@ If this is unwanted, take a look at the results below.
 LSA with BoW
 ![Coherence Scores BoW LSA](Images/LSA_BOW_Coherence.png)
 LSA with TF-IDF
-![Coherence Scores TF-IDF LSA](Images/LSA_TF-IDF_UMASS.png)
+![Coherence Scores TF-IDF LSA](Images/LSA_TFIDF_UMASS.png)
 
 ##### LDA
 LDA with TF-IDF
