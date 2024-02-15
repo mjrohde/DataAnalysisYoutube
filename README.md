@@ -24,16 +24,21 @@ python3 Analysis.py
 ```
 
 # Runtime Example
-The program requires user interaction to complete. It will require the user to enter the type of semantic analysis (lsa or lda) and the vectorization technique ((1)TF-IDF or (2)BoW). The following image shows an example of input:
+The program requires user interaction to complete. It will require the user to enter the type of semantic analysis (lsa or lda) and the vectorization technique ((1)TF-IDF or (2)BoW). 
+Lastly, it will ask if the program should calculate coherence scores.
+The following image shows an example of input:
 
 ![Input User](Images/Working_example.png)
 
 # Code Description
-Thorughout the code there are multiple lines that are commented out. These are highly relevant to the project. 
-However, to lower the runtime, they are commented out to ensure it does not take too long to run each time. 
 
-### Examples
 #### Coherence Scores
+The coherence scores for all four models have been computed, and the results are shown below. 
+As shown in the Runtine Example, the user will have the option to run the program and compute the scores.
+However, this is exhaustive. With the current range that is computed each time now, it takes hours for the program to finish
+and determine the optimal number of topics. If it is needed to run, I would recommend to change the range in the topic_coherence.py
+and coherence.py, or change the number of steps to reduce the processing time.
+
 ##### LSA
 LSA with BoW
 ![Coherence Scores BoW LSA](Images/LSA_BoW_Coherence.png)
@@ -43,6 +48,8 @@ LSA with TF-IDF
 ##### LDA
 LDA with TF-IDF
 ![Coherence Scores TF-IDF LDA](Images/LDA_TF-IDF_UMASS.png)
+LDA with BoW
+![Coherence Scores BoW LDA](Images/LDA_BoW_UMASS.png)
 
 
 
