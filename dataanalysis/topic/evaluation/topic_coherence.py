@@ -35,17 +35,19 @@ def TopicCoherence(dictionary, texts, vectorization, limit, start=2, step=1):
     A list of the computed coherence values
     '''
     coherence_values = []
+    top_words = []
     number_words = 100
     current_iteration = 0
-    number_of_iterations = (limit - start + step - 1) // step
+    number_of_iterations = (limit - start) // step + (1 if (limit - start) % step != 0 else 0)
     for num_topics in range(start, limit, step):
         lda_model = TruncatedSVD(n_components=num_topics, algorithm='randomized', n_iter=100)
         lda_model.fit_transform(vectorization)
         topics = lda_model.components_
         feature_names = [dictionary[i] for i in range(len(dictionary))]
         #Sorts the feature names gotten from the vectorization phase, and sorts it to get the 100 most common words.
-        sorted_words = [[dictionary[i] for i in topic.argsort()[:-number_words - 1:-1]] for topic in topics]
-        cm = CoherenceModel(topics=sorted_words, texts=texts, dictionary=dictionary, coherence='u_mass')
+        for topic in topics:
+            top_words.append([feature_names[i] for i in topic.argsort()[:-number_words - 1:-1]])
+        cm = CoherenceModel(topics=top_words, texts=texts, dictionary=dictionary, coherence='u_mass')
         coherence_values.append(cm.get_coherence())
         current_iteration += 1
         print(f'{(current_iteration/number_of_iterations)*100}%')
