@@ -27,7 +27,7 @@ def load_csv(filepath):
     '''
     data = pd.read_csv(filepath, usecols=['Comment (Actual)'])
     df = pd.DataFrame(data=data)
-    return df.head(len(data))
+    return df.head(10000)
 
 def get_user_input(prompt, choices):
     ''' Gets user input
@@ -103,7 +103,7 @@ def clean_text():
     vectorization_choices = {'1': 'TF-IDF', '2': 'BoW'}
     vectorization_technique = get_user_input(vectorization_prompt, vectorization_choices)
 
-    coherence_prompt = 'Should the coherence score be computed? This will take hours... [y/n]:'
+    coherence_prompt = 'Should the coherence score be computed? [y/n]:'
     coherence_choice = get_compute_coherence_choice(coherence_prompt)
 
 
@@ -119,7 +119,7 @@ def clean_text():
 
 
     #Semantic Analysis
-    if semantic_analysis.lower() == 'LSA':
+    if semantic_analysis.lower() == 'lsa':
         lsa(stemmed_comments, vectorization_technique, coherence_choice)
     elif semantic_analysis.lower() == 'lda':
         lda(stemmed_comments, vectorization_technique, coherence_choice)
