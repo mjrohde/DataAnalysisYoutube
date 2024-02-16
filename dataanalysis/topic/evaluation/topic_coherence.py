@@ -45,9 +45,8 @@ def TopicCoherence(dictionary, texts, vectorization, limit, start=2, step=1):
         topics = lda_model.components_
         feature_names = [dictionary[i] for i in range(len(dictionary))]
         #Sorts the feature names gotten from the vectorization phase, and sorts it to get the 100 most common words.
-        for topic in topics:
-            top_words.append([feature_names[i] for i in topic.argsort()[:-number_words - 1:-1]])
-        cm = CoherenceModel(topics=top_words, texts=texts, dictionary=dictionary, coherence='u_mass')
+        sorted_words = [[feature_names[i] for i in topic.argsort()[:-number_words - 1:-1]] for topic in topics]
+        cm = CoherenceModel(topics=sorted_words, texts=texts, dictionary=dictionary, coherence='u_mass')
         coherence_values.append(cm.get_coherence())
         current_iteration += 1
         print(f'{(current_iteration/number_of_iterations)*100}%')

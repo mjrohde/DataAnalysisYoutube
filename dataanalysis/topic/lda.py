@@ -35,7 +35,7 @@ def lda(comments, vectorization_choice, coherence_choice):
     A digit (1 or 2) describing vectorization technique to use
     '''
     print('Starting Latent Dirichlet Allocation...')
-    number_of_topics = 35 if vectorization_choice == 'BoW' else 40
+    number_of_topics = 62 if vectorization_choice == 'BoW' else 20
     lda_model = LatentDirichletAllocation(n_components=number_of_topics, learning_method='online', random_state=42, max_iter=100)
     if vectorization_choice == 'TF-IDF':
         vectorizer, dataframe, feature_names, document_term_matrix = VectorizationTfIdf(comments)
@@ -49,7 +49,7 @@ def lda(comments, vectorization_choice, coherence_choice):
     if coherence_choice:
         word_id_dictionary = corpora.Dictionary(comments)
 
-        max_topics=50; start=10; step=4;
+        max_topics=70; start=50; step=4;
         coherence_scores = ComputeCoherence(word_id_dictionary, comments, dataframe, max_topics, start, step)
         num_topics_range = range(start, max_topics, step)
         #Plotting

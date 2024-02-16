@@ -27,7 +27,7 @@ def load_csv(filepath):
     '''
     data = pd.read_csv(filepath, usecols=['Comment (Actual)'])
     df = pd.DataFrame(data=data)
-    return df.head(10000)
+    return df.head(15000)
 
 def get_user_input(prompt, choices):
     ''' Gets user input
