@@ -1,6 +1,7 @@
 import pandas as pd
-from utils.converter import convertArrayString
 from sklearn.feature_extraction.text import CountVectorizer
+from utils.converter import convertArrayString
+
 
 
 def VectorizationBOW(processed_comments):
@@ -12,17 +13,22 @@ def VectorizationBOW(processed_comments):
 
     Parameters
     ----------
-    processed_comments : A list of preprocessed comments
+    processed_comments : list
+    A list of preprocessed comments
 
     Returns
     -------
-    vectorizer : An instance of the CountVectorizer class
+    vectorizer : object
+    An instance of the CountVectorizer class
 
-    document_term_df : The transpose of the dataframe
+    document_term_df : dataframe
+    Returns a dataframe of the fitted vocabulary to the BoW model
 
-    feature_names : An n-dimensional array of feature names
+    feature_names : nd-array
+    An n-dimensional array of feature names
 
-    term_document_matrix : An array of shape (n_samples, n_features) with the result of the vectorization of the processed comments
+    term_document_matrix : array
+    An array of shape (n_samples, n_features) with the result of the vectorization of the processed comments
     """
     print("BoW vectorization started...")
 
@@ -34,11 +40,9 @@ def VectorizationBOW(processed_comments):
     )
     term_document_matrix = vectorizer.fit_transform(processed_strings)
 
-    feature_names = vectorizer.get_feature_names_out()
-
     document_term_df = pd.DataFrame(
-        data=term_document_matrix.toarray(), columns=feature_names
+        data=term_document_matrix.toarray(), columns=vectorizer.get_feature_names_out()
     )
 
     print("BoW vectorization done! Almost there now!")
-    return vectorizer, document_term_df, feature_names, term_document_matrix
+    return vectorizer, document_term_df, term_document_matrix

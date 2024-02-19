@@ -2,6 +2,7 @@ import os
 import sys
 
 import numpy as np
+import shlex
 import gensim.corpora as corpora
 import matplotlib.pyplot as plt
 from sklearn.decomposition import TruncatedSVD
@@ -42,15 +43,11 @@ def lsa(comments, vectorization_choice, coherence_choice):
     )
 
     if vectorization_choice == "TF-IDF":
-        vectorizer, dataframe, feature_names, document_term_matrix = VectorizationTfIdf(
-            comments
-        )
+        vectorizer, dataframe, document_term_matrix = VectorizationTfIdf(comments)
     else:
-        vectorizer, dataframe, feature_names, document_term_matrix = VectorizationBOW(
-            comments
-        )
+        vectorizer, dataframe, document_term_matrix = VectorizationBOW(comments)
 
-    lsa = lsa_model.fit_transform(document_term_matrix)
+    lsa_model.fit_transform(document_term_matrix)
 
     # Calculates the Topic Coherence
     if coherence_choice:
@@ -72,14 +69,16 @@ def lsa(comments, vectorization_choice, coherence_choice):
         plt.show()
 
     print("Finalizing...")
+    pdf_path = os.path.join(os.getcwd(), 'Results', f'LSA_{vectorization_choice}_Visualization.pdf')
+    print(pdf_path)
     with PdfPages(
-        f"{sys.path[0]}/Results/LSA_{vectorization_choice}_Visualization.pdf"
+        pdf_path
     ) as pdf:
         # Inspiration: https://www.kaggle.com/code/rajmehra03/topic-modelling-using-lda-and-lsa-in-sklearn/notebook
         for topic_idx, topic_weights in enumerate(lsa_model.components_):
             fig, ax = plt.subplots(figsize=(10, 8))
             word_weight_pairs = [
-                (feature_names[i], weight) for i, weight in enumerate(topic_weights)
+                (vectorizer.get_feature_names_out()[i], weight) for i, weight in enumerate(topic_weights)
             ]
             word_weight_pairs.sort(key=lambda x: x[1], reverse=True)
             top_words, top_weights = zip(*word_weight_pairs[:10])
@@ -88,14 +87,11 @@ def lsa(comments, vectorization_choice, coherence_choice):
             ax.barh(y_pos, top_weights, align="center")
             ax.set_yticks(y_pos)
             ax.set_yticklabels(top_words)
-            ax.invert_yaxis()  # Invert y-axis to have the highest weight on top
+            ax.invert_yaxis()  # Sorts the list heighest to lowest
             ax.set_xlabel("Weight")
             ax.set_title(f"Topic {topic_idx + 1}")
 
             plt.tight_layout()
             pdf.savefig(fig)
             plt.close(fig)
-    os.open(
-        f"{sys.path[0]}/Results/LSA_{vectorization_choice}_Visualization.pdf",
-        os.O_RDONLY,
-    )
+    os.system(f'open {shlex.quote(pdf_path)}')

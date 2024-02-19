@@ -1,6 +1,6 @@
-from utils.converter import convertArrayString
-from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from utils.converter import convertArrayString
 
 
 def VectorizationTfIdf(processed_comments):
@@ -21,17 +21,22 @@ def VectorizationTfIdf(processed_comments):
 
     Parameters
     ----------
-    processed_comments : A list of preprocessed comments
+    processed_comments : list
+    A list of preprocessed comments
 
     Returns
     -------
-    tfidf_vectorizer : A TF-IDF vectorizer object
+    tfidf_vectorizer : object
+    A TF-IDF vectorizer object
 
-    tfidf_dataframe : A dataframe of the TF-IDF matrix
+    tfidf_dataframe : dataframe
+    A dataframe of the TF-IDF matrix
 
-    tfidf_vectorizer.get_feature_names_out() : A list of all the feature names discovered during the vectorization
+    tfidf_vectorizer.get_feature_names_out() : list
+    A list of all the feature names discovered during the vectorization
 
-    tfidf_matrix : A tuple of document id and token id, with the corresponding TF-IDF score, token ids not present have a TF-IDF score of 0
+    tfidf_matrix : tuple
+    A tuple of document id and token id, with the corresponding TF-IDF score, token ids not present have a TF-IDF score of 0
     """
     print("TF-IDF vectorization started...")
     processed_strings = convertArrayString(processed_comments)
@@ -41,10 +46,8 @@ def VectorizationTfIdf(processed_comments):
     )
     tfidf_matrix = tfidf_vectorizer.fit_transform(processed_strings)
 
-    feature_names = tfidf_vectorizer.get_feature_names_out()
-
-    tfidf_dataframe = pd.DataFrame(tfidf_matrix.toarray(), columns=feature_names)
+    tfidf_dataframe = pd.DataFrame(tfidf_matrix.toarray(), columns=tfidf_vectorizer.get_feature_names_out())
 
     print("TF-IDF vectorization done! Last step now is the Semantic analysis!")
 
-    return tfidf_vectorizer, tfidf_dataframe, feature_names, tfidf_matrix
+    return tfidf_vectorizer, tfidf_dataframe, tfidf_matrix

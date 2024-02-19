@@ -38,7 +38,7 @@ def lda(comments, vectorization_choice, coherence_choice):
     A boolean indcating whether the coherence values should be computed
     """
     print("Starting Latent Dirichlet Allocation...")
-    number_of_topics = 20 if vectorization_choice == "BoW" else 15
+    number_of_topics = 20 if vectorization_choice == "BoW" else 14
     lda_model = LatentDirichletAllocation(
         n_components=number_of_topics,
         learning_method="online",
@@ -46,11 +46,11 @@ def lda(comments, vectorization_choice, coherence_choice):
         max_iter=100,
     )
     if vectorization_choice == "TF-IDF":
-        vectorizer, dataframe, feature_names, document_term_matrix = VectorizationTfIdf(
+        vectorizer, dataframe, document_term_matrix = VectorizationTfIdf(
             comments
         )
     else:
-        vectorizer, dataframe, feature_names, document_term_matrix = VectorizationBOW(
+        vectorizer, dataframe, document_term_matrix = VectorizationBOW(
             comments
         )
 
